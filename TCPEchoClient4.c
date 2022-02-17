@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
         printf("create socket failed");
     }
 
-    struct sockaddr_in Serveraddr;//this sockaddr will be cast to sockaddr when connect TODO difference between sockaddr_in sockaddr
+    struct sockaddr_in Serveraddr;//this sockaddr will be cast to sockaddr when connect // sockaddr is Generics 泛型of socket,it's common use for vareious type of address 
     memset(&Serveraddr,0,sizeof(Serveraddr));
     Serveraddr.sin_family=AF_INET;
     
@@ -38,6 +38,25 @@ int main(int argc, char* argv[]){
     Serveraddr.sin_port=htons(port);
 
 
-    if(connect(sock,(struct sockaddr *)&Serveraddr,sizeof(Serveraddr))<0)
+    if(connect(sock,(struct sockaddr *)&Serveraddr,sizeof(Serveraddr)) < 0)// connect will return after 3-handshake finish
         printf("connect failed");
+
+    size_t echoStringLen = strlen(echoString);
+
+
+    ssize_t numBytes = send(sock,echoString,echoStringLen,0); // send will return once data is copy to kernel buffer, not real sent to server.
+    if (numBytes < 0)
+        printf("send() failed");
+    else if (numBytes != echoStringLen)
+        printf("send unexpected num of bytes");
+
+
+    unsigned int totalBytesString = 0;
+    fputs("recv:",stdout);
+    while(totalBytesString < numBytes){
+        char Buffer[BUFFER_SIZE];
+        numBytes
+    }
+
+
 }
