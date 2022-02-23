@@ -53,10 +53,18 @@ int main(int argc, char* argv[]){
 
     unsigned int totalBytesString = 0;
     fputs("recv:",stdout);
+    
     while(totalBytesString < numBytes){
-        char Buffer[BUFFER_SIZE];
-        numBytes
-    }
-
+        char Buffer[20];
+        numBytes=recv(sock,Buffer,19,0);
+        if (numBytes < 0)
+            printf("recv error");
+        else if (numBytes == 0)
+            print("connection closed permaturely");
+        else
+            totalBytesString += numBytes;
+            fputs(Buffer,stdout);
+        }
+    fputc('\0',stdout);
 
 }
